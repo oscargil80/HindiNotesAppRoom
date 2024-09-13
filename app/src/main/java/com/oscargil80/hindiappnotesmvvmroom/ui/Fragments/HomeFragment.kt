@@ -35,6 +35,35 @@ class HomeFragment : Fragment() {
             binding.rcvAllNotes.adapter = NotesAdapter(requireContext(), notesList)
         }
 
+        binding.btnAllNotes.setOnClickListener {
+            viewModel.getNotes().observe(viewLifecycleOwner) { notesList ->
+                binding.rcvAllNotes.layoutManager = GridLayoutManager(requireContext(), 2)
+                binding.rcvAllNotes.adapter = NotesAdapter(requireContext(), notesList)
+            }
+        }
+
+        binding.filterHigh.setOnClickListener {
+            val view = viewModel.getHighNotes()
+            view.observe(viewLifecycleOwner) { notesList ->
+                binding.rcvAllNotes.layoutManager = GridLayoutManager(requireContext(), 2)
+                binding.rcvAllNotes.adapter = NotesAdapter(requireContext(), notesList)
+            }
+        }
+
+        binding.filterMediun.setOnClickListener {
+            viewModel.getMediunNotes().observe(viewLifecycleOwner) { notesList ->
+                binding.rcvAllNotes.layoutManager = GridLayoutManager(requireContext(), 2)
+                binding.rcvAllNotes.adapter = NotesAdapter(requireContext(), notesList)
+            }
+        }
+
+        binding.filterLow.setOnClickListener {
+            viewModel.getLowNotes().observe(viewLifecycleOwner) { notesList ->
+                binding.rcvAllNotes.layoutManager = GridLayoutManager(requireContext(), 2)
+                binding.rcvAllNotes.adapter = NotesAdapter(requireContext(), notesList)
+            }
+        }
+
 
 
         binding.btnAddNotes.setOnClickListener {

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.oscargil80.hindiappnotesmvvmroom.Dao.NotesDao
 import com.oscargil80.hindiappnotesmvvmroom.Model.Notes
 
-class NotesRepository(val dao:NotesDao) {
+class NotesRepository(val dao: NotesDao) {
 
 /*    fun getAllNotes(): LiveData<List<Notes>>{
         return dao.getNotes()
@@ -12,15 +12,21 @@ class NotesRepository(val dao:NotesDao) {
 
     fun getAllNotes(): LiveData<List<Notes>> = dao.getNotes()
 
+    fun getLowNotes(): LiveData<List<Notes>> = dao.getLowNotes()
 
-    fun insertNotes(notes: Notes) =  dao.insertNotes(notes)
+    fun getMediunNotes(): LiveData<List<Notes>> = dao.getMediunNotes()
+
+    fun getHighNotes(): LiveData<List<Notes>> = dao.getHighNotes()
 
 
-    fun deleteNotes(id: Int){
+    fun insertNotes(notes: Notes) = dao.insertNotes(notes)
+
+
+    fun deleteNotes(id: Int) {
         dao.deleteNotes(id)
     }
 
-    fun updateNotes(notes: Notes){
+    fun updateNotes(notes: Notes) {
         dao.updateNotes(notes)
     }
 }
