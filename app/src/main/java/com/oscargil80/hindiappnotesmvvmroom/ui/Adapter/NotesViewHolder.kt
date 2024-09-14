@@ -41,6 +41,7 @@ class NotesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
               Navigation.findNavController(it).navigate(action)
 
 
+
           }
 
     }

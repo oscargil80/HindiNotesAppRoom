@@ -3,8 +3,10 @@ package com.oscargil80.hindiappnotesmvvmroom.ui.Fragments
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.*
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.core.app.SharedElementCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
@@ -27,6 +29,8 @@ class EditNotesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+
+
         binding = FragmentEditNotesBinding.inflate(layoutInflater, container, false)
 
         setHasOptionsMenu(true)
@@ -87,6 +91,8 @@ class EditNotesFragment : Fragment() {
         return binding.root
     }
 
+
+
     private fun updateNotes(it: View?) {
         val title = binding.edtTitle.text.toString()
         val subTitle = binding.edtSubTitle.text.toString()
@@ -108,7 +114,7 @@ class EditNotesFragment : Fragment() {
         Toast.makeText(requireContext(), "Nota Actualizada Correctamente", Toast.LENGTH_SHORT)
             .show();
 
-        Navigation.findNavController(it!!).navigate(R.id.action_editNotesFragment_to_homeFragment)
+     //   Navigation.findNavController(it!!).navigate(R.id.action_editNotesFragment_to_homeFragment)
 
     }
 
@@ -118,10 +124,25 @@ class EditNotesFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId== R.id.menu_delete){
+        if (item.itemId == R.id.menu_delete) {
 
-            val bottomSheet: BottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetStyle)
+            val bottomSheet: BottomSheetDialog =
+                BottomSheetDialog(requireContext(), R.style.BottomSheetStyle)
             bottomSheet.setContentView(R.layout.dialog_delete)
+
+            val textViewYes = bottomSheet.findViewById<TextView>(R.id.dialog_yes)
+            val textViewNo = bottomSheet.findViewById<TextView>(R.id.dialog_no)
+
+            textViewYes?.setOnClickListener {
+             //   viewModel.deleteNotes(oldNotes.data.id!!)
+                bottomSheet.dismiss()
+                Toast.makeText(requireContext(), "Elemento Borrado", Toast.LENGTH_SHORT).show();
+            }
+
+            textViewNo?.setOnClickListener {
+                bottomSheet.dismiss()
+            }
+
 
             bottomSheet.show()
 

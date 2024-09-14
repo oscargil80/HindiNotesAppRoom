@@ -18,7 +18,10 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController)
 
+
     }
+
+
 
     override fun onNavigateUp(): Boolean {
         return navController.navigateUp() || super.onNavigateUp()
