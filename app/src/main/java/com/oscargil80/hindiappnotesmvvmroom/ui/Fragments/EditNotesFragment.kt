@@ -9,11 +9,14 @@ import android.widget.Toast
 import androidx.core.app.SharedElementCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.oscargil80.hindiappnotesmvvmroom.MainActivity
 import com.oscargil80.hindiappnotesmvvmroom.Model.Notes
 import com.oscargil80.hindiappnotesmvvmroom.R
 import com.oscargil80.hindiappnotesmvvmroom.ViewModel.NotesViewModel
+import com.oscargil80.hindiappnotesmvvmroom.databinding.ActivityMainBinding
 import com.oscargil80.hindiappnotesmvvmroom.databinding.FragmentEditNotesBinding
 import java.util.*
 
@@ -33,6 +36,14 @@ class EditNotesFragment : Fragment() {
 
         binding = FragmentEditNotesBinding.inflate(layoutInflater, container, false)
 
+
+
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         binding.edtTitle.setText(oldNotes.data.title)
         binding.edtSubTitle.setText(oldNotes.data.subTitle)
@@ -57,7 +68,6 @@ class EditNotesFragment : Fragment() {
                 binding.pYellow.setImageResource(0)
                 binding.pGreen.setImageResource(0)
             }
-
         }
 
         binding.pGreen.setOnClickListener {
@@ -82,16 +92,9 @@ class EditNotesFragment : Fragment() {
         }
 
         binding.btnEditNotes.setOnClickListener {
-
             updateNotes(it)
-
         }
-
-
-        return binding.root
     }
-
-
 
     private fun updateNotes(it: View?) {
         val title = binding.edtTitle.text.toString()
@@ -113,9 +116,7 @@ class EditNotesFragment : Fragment() {
 
         Toast.makeText(requireContext(), "Nota Actualizada Correctamente", Toast.LENGTH_SHORT)
             .show();
-
-     //   Navigation.findNavController(it!!).navigate(R.id.action_editNotesFragment_to_homeFragment)
-
+        Navigation.findNavController(it!!).navigate(R.id.action_editNotesFragment_to_homeFragment)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -125,7 +126,6 @@ class EditNotesFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_delete) {
-
             val bottomSheet: BottomSheetDialog =
                 BottomSheetDialog(requireContext(), R.style.BottomSheetStyle)
             bottomSheet.setContentView(R.layout.dialog_delete)
@@ -134,7 +134,8 @@ class EditNotesFragment : Fragment() {
             val textViewNo = bottomSheet.findViewById<TextView>(R.id.dialog_no)
 
             textViewYes?.setOnClickListener {
-             //   viewModel.deleteNotes(oldNotes.data.id!!)
+                viewModel.deleteNotes(oldNotes.data.id!!)
+                atras()
                 bottomSheet.dismiss()
                 Toast.makeText(requireContext(), "Elemento Borrado", Toast.LENGTH_SHORT).show();
             }
@@ -142,13 +143,12 @@ class EditNotesFragment : Fragment() {
             textViewNo?.setOnClickListener {
                 bottomSheet.dismiss()
             }
-
-
             bottomSheet.show()
-
-
         }
-
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun atras() {
+        view!!.findNavController().popBackStack(R.id.homeFragment, false)
     }
 }
