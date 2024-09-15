@@ -9,15 +9,12 @@ import com.oscargil80.hindiappnotesmvvmroom.R
 
 
 class NotesAdapter(
-    val requireContext: Context,
     var notesList: List<Notes>,
-
     ) : RecyclerView.Adapter<NotesViewHolder>() {
 
     fun filtering(newFilteredList: ArrayList<Notes>) {
         notesList = newFilteredList
         notifyDataSetChanged()
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
@@ -29,6 +26,5 @@ class NotesAdapter(
         val item = notesList[position]
         holder.render(item)//, onClickListener, onItemSeleted)
     }
-
     override fun getItemCount(): Int = notesList.size
 }
