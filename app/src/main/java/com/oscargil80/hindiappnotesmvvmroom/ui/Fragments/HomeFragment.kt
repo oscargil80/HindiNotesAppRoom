@@ -3,6 +3,7 @@ package com.oscargil80.hindiappnotesmvvmroom.ui.Fragments
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
+import android.widget.Toast
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.oscargil80.hindiappnotesmvvmroom.Model.Notes
 import com.oscargil80.hindiappnotesmvvmroom.R
+import com.oscargil80.hindiappnotesmvvmroom.Util.Types
+import com.oscargil80.hindiappnotesmvvmroom.Util.Types.*
 import com.oscargil80.hindiappnotesmvvmroom.ViewModel.NotesViewModel
 import com.oscargil80.hindiappnotesmvvmroom.databinding.FragmentHomeBinding
 import com.oscargil80.hindiappnotesmvvmroom.ui.Adapter.NotesAdapter
@@ -36,22 +39,23 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /* staggeredGridLayoutManager =
-          StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)*/
 
         //get all notes
         viewModel.getNotes().observe(viewLifecycleOwner) { notesList -> setUpRecycler(notesList) }
         // filter all Notes
         binding.btnAllNotes.setOnClickListener {
-            viewModel.getNotes().observe(viewLifecycleOwner) { notesList -> setUpRecycler(notesList) }
+            viewModel.getNotes()
+                .observe(viewLifecycleOwner) { notesList -> setUpRecycler(notesList) }
         }
         // filter Mediun Notes
         binding.filterMediun.setOnClickListener {
-            viewModel.getMediunNotes().observe(viewLifecycleOwner) { notesList ->  setUpRecycler(notesList)  }
+            viewModel.getMediunNotes()
+                .observe(viewLifecycleOwner) { notesList -> setUpRecycler(notesList) }
         }
         // filter Low Notes
         binding.filterLow.setOnClickListener {
-            viewModel.getLowNotes().observe(viewLifecycleOwner) { notesList ->  setUpRecycler(notesList)    }
+            viewModel.getLowNotes()
+                .observe(viewLifecycleOwner) { notesList -> setUpRecycler(notesList) }
         }
         // filter High Notes
         binding.filterHigh.setOnClickListener {
@@ -73,8 +77,25 @@ class HomeFragment : Fragment() {
 
         binding.rcvAllNotes.layoutManager = staggeredGridLayoutManager
         oldMyNotes = notesList as ArrayList<Notes>
-        adapter = NotesAdapter(notesList)
+//        adapter = NotesAdapter(notesList)
+        val adapter = NotesAdapter(notesList) { type, position, note ->
+            when (type){
+                posicion ->onClickListener(position)
+                nota ->onClickNotes(note)
+            }
+        }
+
         binding.rcvAllNotes.adapter = adapter
+    }
+
+    private fun onClickNotes(note: Notes) {
+                val action = HomeFragmentDirections.actionHomeFragmentToEditNotesFragment(note)
+               Navigation.findNavController(requireView()).navigate(action)
+    }
+
+    private fun onClickListener(position: Int) {
+        Toast.makeText(requireContext(), "Hola esta es la posicion $position", Toast.LENGTH_SHORT)
+            .show();
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -88,6 +109,7 @@ class HomeFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 NotesFiltering(newText)
                 return true
