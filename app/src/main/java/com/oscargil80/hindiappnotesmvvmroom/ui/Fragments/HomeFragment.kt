@@ -22,6 +22,7 @@ import com.oscargil80.hindiappnotesmvvmroom.ui.Adapter.OnNotesClickListener
 
 class HomeFragment : Fragment(), OnNotesClickListener {
 
+
     lateinit var binding: FragmentHomeBinding
     val viewModel: NotesViewModel by viewModels()
     var oldMyNotes = arrayListOf<Notes>()
