@@ -17,9 +17,10 @@ import com.oscargil80.hindiappnotesmvvmroom.Util.Types.*
 import com.oscargil80.hindiappnotesmvvmroom.ViewModel.NotesViewModel
 import com.oscargil80.hindiappnotesmvvmroom.databinding.FragmentHomeBinding
 import com.oscargil80.hindiappnotesmvvmroom.ui.Adapter.NotesAdapter
+import com.oscargil80.hindiappnotesmvvmroom.ui.Adapter.OnNotesClickListener
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnNotesClickListener {
 
     lateinit var binding: FragmentHomeBinding
     val viewModel: NotesViewModel by viewModels()
@@ -78,25 +79,12 @@ class HomeFragment : Fragment() {
         binding.rcvAllNotes.layoutManager = staggeredGridLayoutManager
         oldMyNotes = notesList as ArrayList<Notes>
 //        adapter = NotesAdapter(notesList)
-        val adapter = NotesAdapter(notesList) { type, position, note ->
-            when (type){
-                posicion ->onClickListener(position)
-                nota ->onClickNotes(note)
-            }
-        }
+        val adapter = NotesAdapter(notesList, this)
 
         binding.rcvAllNotes.adapter = adapter
     }
 
-    private fun onClickNotes(note: Notes) {
-                val action = HomeFragmentDirections.actionHomeFragmentToEditNotesFragment(note)
-               Navigation.findNavController(requireView()).navigate(action)
-    }
 
-    private fun onClickListener(position: Int) {
-        Toast.makeText(requireContext(), "Hola esta es la posicion $position", Toast.LENGTH_SHORT)
-            .show();
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_menu, menu)
@@ -127,6 +115,31 @@ class HomeFragment : Fragment() {
         }
         adapter.filtering(newFilteredList)
     }
+
+    override fun onImageClick(posicion: Int) {
+        Toast.makeText(requireContext(), "Hola esta es la posicion $posicion", Toast.LENGTH_SHORT)
+            .show();
+    }
+
+    override fun onItemClick(note: Notes) {
+        val action = HomeFragmentDirections.actionHomeFragmentToEditNotesFragment(note)
+        Navigation.findNavController(requireView()).navigate(action)
+    }
 }
+
+
+
+
+/*
+private fun onClickNotes(note: Notes) {
+    val action = HomeFragmentDirections.actionHomeFragmentToEditNotesFragment(note)
+    Navigation.findNavController(requireView()).navigate(action)
+}
+
+private fun onClickListener(position: Int) {
+    Toast.makeText(requireContext(), "Hola esta es la posicion $position", Toast.LENGTH_SHORT)
+        .show();
+}
+*/
 
 

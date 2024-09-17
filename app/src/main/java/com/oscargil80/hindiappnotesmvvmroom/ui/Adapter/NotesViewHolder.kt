@@ -1,14 +1,10 @@
 package com.oscargil80.hindiappnotesmvvmroom.ui.Adapter
 
 import android.view.View
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.oscargil80.hindiappnotesmvvmroom.Model.Notes
 import com.oscargil80.hindiappnotesmvvmroom.R
-import com.oscargil80.hindiappnotesmvvmroom.Util.Types
-import com.oscargil80.hindiappnotesmvvmroom.Util.Types.*
 import com.oscargil80.hindiappnotesmvvmroom.databinding.ItemNotesBinding
-import com.oscargil80.hindiappnotesmvvmroom.ui.Fragments.HomeFragmentDirections
 
 
 class NotesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -17,7 +13,9 @@ class NotesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun render(
         notes: Notes,
-        onClickListener:  (types: Types, position: Int, note: Notes) -> Unit
+        onClickListener: OnNotesClickListener
+        // onClickListener:  (types: Types, position: Int, note: Notes) -> Unit
+
         //onItemSeleted: (Int) -> Unit,*/
     ) {
         binding.notesTitle.text = notes.title
@@ -25,18 +23,23 @@ class NotesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         binding.notesDate.text = notes.date
 
         when (notes.priority) {
-            "1" ->   binding.viewPriority.setBackgroundResource(R.drawable.green_dot)
-            "2" ->   binding.viewPriority.setBackgroundResource(R.drawable.yellow_dot)
-            "3" ->   binding.viewPriority.setBackgroundResource(R.drawable.red_dot)
+            "1" -> binding.viewPriority.setBackgroundResource(R.drawable.green_dot)
+            "2" -> binding.viewPriority.setBackgroundResource(R.drawable.yellow_dot)
+            "3" -> binding.viewPriority.setBackgroundResource(R.drawable.red_dot)
         }
 
-          itemView.setOnClickListener {
-                onClickListener(nota, adapterPosition, notes)
-          }
+        itemView.setOnClickListener {
+            onClickListener.onItemClick(notes)
+        }
 
         binding.viewPriority.setOnClickListener {
-            onClickListener(posicion, adapterPosition, notes)
+            onClickListener.onImageClick(adapterPosition)
         }
     }
 
+}
+
+interface OnNotesClickListener {
+    fun onImageClick(adapterPosition: Int)
+    fun onItemClick(notes: Notes)
 }
