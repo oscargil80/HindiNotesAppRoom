@@ -15,6 +15,7 @@ class NotesAdapter(
    private  val onClickListener: (types: Types, position: Int, note: Notes) -> Unit
     ) : RecyclerView.Adapter<NotesViewHolder>() {
 
+
     //var notesList: List<Notes> = listOf()
 
     fun filtering(newFilteredList: ArrayList<Notes>) {
