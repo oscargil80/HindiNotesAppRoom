@@ -43,6 +43,8 @@ class HomeFragment : Fragment() {
             oldMyNotes = notesList as ArrayList<Notes>
             adapter = NotesAdapter(requireContext(), notesList)
             binding.rcvAllNotes.adapter = adapter
+
+
         }
 
          // filter all Notes
