@@ -34,6 +34,8 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         setHasOptionsMenu(true)
 
+
+
         val staggeredGridLayoutManager =
             StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         binding.rcvAllNotes.layoutManager = staggeredGridLayoutManager
